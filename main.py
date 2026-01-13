@@ -1,0 +1,5 @@
+print("==============================")
+print("   EXPENSE TRACKER SYSTEM")
+print("==============================")
+print('1. Add new transaction \n 2. View all transactions \n 3. View monthly summary \n 4. View category-wise summary \n 5. Delte a transaction\n 6. Export report\n 7. Exit')
+choice=int(input("Enter your choice:"))
