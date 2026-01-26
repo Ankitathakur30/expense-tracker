@@ -11,17 +11,32 @@ def initialize_storage():
 
 def save_transaction(d,a,t,c,des):
     with open(data_file,'a') as f:
-        f.write(f'{d},{a},{t},{c},{des}')
-d=input("Enter the date of transaction: ")
-a=int(input("Enter amount: "))
-t=input("Expense/Income: ")
-c=input("Category of expense(Food/Travel/Others/None): ")
-des=input("Description of expense: ")
-initialize_storage()
-save_transaction(d,a,t,c,des)
+        f.write(f'{d},{a},{t},{c},{des}\n')
+        
 def load_transaction(data_file):
-    with open(data_file,'r') as f:
+    transactions=[]
+    with open(data_file,'r',newline="") as f:
         reader=csv.DictReader(f)
         for row in reader:
-            print(f"Date:{row['Date']},\n Amount:{row['Amount']},\nType:{row['Type']},\nCategory:{row['Category']},\nDescription:{row['Description']}")
-load_transaction(data_file)
+            transactions.append(row)
+    return transactions
+
+def del_transac(index):
+    
+    with open(data_file,"r") as f:
+        reader=csv.DictReader(f)
+        transactions=list(reader)
+        fieldnames=reader.fieldnames
+        
+    if index<0 or index>len(transactions):
+        print("Invalid Index !!!")
+        return False 
+
+    transactions.pop(index) #Remove the seleced transaction
+
+    #Rewrite CSV with remaining data
+    with open(data_file,"w") as f:
+        writer=csv.DictWriter(f,fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(transactions)
+    return True
